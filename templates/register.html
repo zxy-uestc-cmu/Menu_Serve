@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+{% block bigtitle %}Menu Edit{% endblock %}
+
+{% block content%}
+   <div class="center"> 
+        <form class='form' action={% url 'register' %} method='POST'>{% csrf_token %} <br>
+          {% for field in form%}    
+          <div class="center">
+              <h5 class="card-title" id="information">{{ field.label_tag }}  {{ field }}</h5>
+              <span class="card-text">{{ field.errors.as_text }}</span>
+          </div><br>
+          {% endfor %}
+          <br>
+          <input class="button1staff" type="submit" name='comfirm' value="Confirm and Register">
+        </form>  
+     </div>     
+{% endblock %}
+

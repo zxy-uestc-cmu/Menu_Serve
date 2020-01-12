@@ -1,0 +1,22 @@
+         {% extends "base.html" %}
+         {% block bigtitle %}Menu Management{% endblock %}
+
+         {% block extra %}{% endblock %}
+         {% block net %}'/menu_management/'{% endblock %}
+         {% block add %}<input name='add' id="add" type='submit' class="buttonstaff" value="Add Food">{% endblock%}
+
+          {% block cardbody %}
+                <form action='/menu_management/' id="food" method='POST'>  
+                  {% csrf_token %} 
+                  <div class="card-body">
+                    <h4 class="card-title">{{ i.name }}</h4>
+                    <h5>$ {{ i.price }}</h5>
+                    <p class="card-text">{{ i.intro }}</p>
+                  </div>
+                  <div class="card-footer" style="background: #ffffff">
+                    <input name="item" type="hidden" value={{ i.id }}>
+                    <input name='edit' id="edit" class="button1staff" type="submit"  value='Edit'>
+                    <input name="delete" id="delete" class="button1staff" type="submit" value='Delete'>
+                   </div>
+                </form>  
+          {% endblock %}

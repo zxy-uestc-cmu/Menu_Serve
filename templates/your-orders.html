@@ -1,0 +1,35 @@
+      {% extends "base.html" %}
+      {% block bigtitle %}Order List{% endblock %}
+
+      {% block content %}
+      <h1 class="my-4">Your All Orders</h1><br>
+
+      <div class="row">
+        {% for i in tobe %}
+        <div class="col-lg-4 col-sm-6 mb-4">
+          <div class="card h-100">
+            <div class="card-top">
+              <h2 class="ordernum">Store: {{ i.name }}</h2>
+              <h4 class="my-4"> Status: To be done</h4>
+            </div>
+            <div class="card-body">
+              <p class="card-txt">{{i.foods}}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        {% for i in done %}
+        <div class="col-lg-4 col-sm-6 mb-4">
+          <div class="card h-100">
+            <div class="card-top">
+              <h2 class="ordernum">Store: {{ i.name }}</h2>
+              <h4 class="my-4">Status: Already Done  </h4>
+            </div>
+            <div class="card-body">
+              <p class="card-txt">{{i.foods}}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endblock %}

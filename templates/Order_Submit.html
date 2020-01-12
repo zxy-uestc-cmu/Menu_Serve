@@ -1,0 +1,133 @@
+    {% extends "base.html" %}
+
+    {% block script %} 
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+      $(document).ready(function(){
+        $("button").click(function(){
+          var operation = $(this).attr("name");
+          var foodid = $(this).attr("value");
+          $.ajax({
+            method:"POST",
+            url:".",
+            data: {op:operation,id:foodid,csrfmiddlewaretoken:'{{ csrf_token }}'},
+            dataType:"json"
+          })
+          .done(function(data){
+            if (!data){
+              return;
+            }
+            var flag = false;
+            $("#orderlist").children("li").each(function(){
+              var foodname = $(this).find("div h6").text();
+              if (foodname==data.food){
+                flag = true;
+                if (data.num==0){
+                  $(this).remove();
+                }
+                else{
+                  $(this).find("div span").text('Number:'+data.num);
+                  $(this).children("span").text('$'+data.price);
+                }
+                return false;
+              }
+            });
+
+            if (flag==false && data.op=='add'){
+              var list = $("#orderlist");
+              var node = $("<li></li>"); 
+              node.attr({class:"list-group-item d-flex justify-content-between lh-condensed",style:"background-color:#fdecec;"})
+              var child1 = $("<div></div>");
+              var child2 = $("<span></span>"); child2.attr({class:"text"});child2.text('$'+data.price);
+
+              var grandchirld1 = $("<h6></h6>"); grandchirld1.attr({class:"my-0"});
+              grandchirld1.text(data.food);
+              var grandchirld2 = $("<span></span>"); grandchirld2.attr({class:"txt"});
+              grandchirld2.text('Number:'+data.num);
+
+              child1.append(grandchirld1); child1.append(grandchirld2);
+              node.append(child1,child2);
+
+              var list = $("#orderlist");
+              list.append(node);   
+            }
+          })
+          .fail(function() {
+            alert("This Request failed, sorry!");
+          })
+        });
+      });
+
+    </script>{% endblock %} 
+
+    {% block bigtitle %}Order Now{% endblock %}
+
+    {% block category %}
+        <div class="col-lg-4">
+          <h1 class="my-4"  >Your Bill  |  {{ s.name }} </h1></br>
+          <ul class="list-group mb-3" id="orderlist" >
+            {% for i in cart %}
+            <li class="list-group-item d-flex justify-content-between lh-condensed" style="background-color:#fdecec;">
+                <div>
+                  <h6 class="my-0">{{ i.name }}</h6>
+                  <span class="txt">Number: {{ i.num }}</span>
+                </div>
+                <span class="text">${{ i.price }}</span>
+            </li>
+            {% endfor %}
+            <!--
+             <li class="list-group-item d-flex justify-content-between lh-condensed" style="background-color:#fff7f7">
+                <div>
+                  <h7 class="my-0">Tax</h7>
+                </div>
+                <span class="text">10</span>
+            </li>
+           <li class="list-group-item d-flex justify-content-between" style="background-color:#fff7f7">
+                <span class="total" >Total Amount</span>
+                <span class="total">100</span>
+            </li>-->
+           </ul></br>
+           <li class="list-group-item d-flex justify-content-between lh-condensed" style="background-color:#fff7f7">
+              <div>
+                <h7 class="my-0">Service</h7>
+              </div>
+              <span class="text">$2.00</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between lh-condensed" style="background-color:#fff7f7">
+              <div>
+                <h7 class="my-0">Delivery</h7>
+              </div>
+              <span class="text">$2.50</span>
+           </li><br>
+           <form action={% url 'order' %} method='POST'>
+              {% csrf_token %} 
+              <input name="sid" type="hidden" value={{ s.id }}>
+              <input name='submit_order' class="button1staff" id="submit" type="submit" value='Submit Your Order'>
+            </form>
+        </div>
+      {% endblock %}
+
+        {% block clo %}
+        <div class="col-lg-8">
+        {% endblock %}
+
+        {% block title %}
+          <h1 class="my-4">Menu</h1>
+          {% for i in store %}
+          <form action={% url 'order' %} method='POST'>
+            {% csrf_token %}          
+            <input name='sid' type='hidden' value={{ i.id }}>
+            <input name='selects' type='submit' class="button1" value={{ i.name }}>
+          </form>
+          {% endfor %}
+        {% endblock %}
+        
+        {% block cardextra %}
+          <div class="card-footer" style="background: #ffffff">
+          <button name='minus' class="button" id="minus" value={{i.id}}>-</button>
+          <button name='add' class="button" id="add" value={{i.id}}>+</button>
+          <button name='delete' class="buttonstaff" id="delete" value={{i.id}}>Delete</button>
+          </div>
+        {% endblock %}   
+
+ 

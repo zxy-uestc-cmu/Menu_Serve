@@ -1,0 +1,241 @@
+div.card-top{
+  background: #fdecec;
+  padding-top:13px;
+  padding-bottom:0px;
+  text-align: center;
+}
+form.form{
+  background-color: #fdfafa;
+  border-color: #fdfafa;
+  margin-top: 40px;
+}
+input{
+  color: #9e2424;
+  border-color: #b4b3b3e5;
+  border-width: 1px;
+  font-size: 17px;
+  outline:none;
+}
+button{
+  color: #9e2424;
+  border-color: #b4b3b3e5;
+  border-width: 1px;
+  font-size: 17px;
+  outline: none;
+}
+input.button1 {
+  color: #cc2e2e;
+  border-color: #cc2e2e;
+  background-color: #fff9f9;
+  border-radius: 17px;
+  font-size: 17px;
+  cursor: pointer;
+  margin-bottom: 6px;
+  outline: none;
+}
+input.button1:hover {
+  background-color: #e0afb2;
+  outline:none;
+}
+input.signout {
+  color: #cc2e2e;
+  border-color: #fddcdc;
+  background-color: #fddcdc;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 5px;
+  outline:none;
+}
+input.button1staff {
+  color: #f1ebeb;
+  border-color: #802d2dce;
+  background-color: #8a3737e8;
+  border-radius: 17px;
+  font-size: 17px;
+  cursor: pointer;
+  margin-bottom: 6px;
+  outline:none;
+}
+input.button1staff:hover {
+  background-color: #a07a7c;
+}
+div.center {
+  text-align: center;
+  margin-bottom: 15px;
+}
+.buttonstaff {
+  color: #f1ebeb;
+  border-color: #802d2dce;
+  background-color: #8a3737e8;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 12px;
+  outline:none;
+}
+.buttonstaff:hover {
+  background-color: #a07a7c;
+  outline:none;
+}
+.buttonstaff:focus{outline:0;} 
+input.buttonchange {
+  color: #f1ebeb;
+  border-color: #b4720ece;
+  background-color: #b4720ece;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 12px;
+}
+input.buttonchange:hover {
+  background-color: #d4c373;
+}
+.button {
+  color: #cc2e2e;
+  border-color: #cc2e2e;
+  background-color: #ffffff;
+  border-radius: 3px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 12px;
+  outline:none;
+}
+.button:hover {
+  background-color: #f5d1d3;
+  outline:none;
+}
+.button:focus{outline:0;} 
+.navtxt{
+  color: #cc2e2e;
+  padding-top:10px;
+  padding-right:13px;
+  padding-left:4px;
+  padding-bottom: 15px;
+}
+.back {
+  background-color: #fdfafa;
+}
+.tophead {
+  background-color: #fddcdc;
+  padding: 0px;
+  margin-top: 4px;
+  margin-bottom: 5px;
+  text-align: center;
+}
+p.Lucida {
+  font-family: "Lucida Console";
+  color: #fb6161;
+  font-size: 50px;
+}
+span.Georgia {
+  font-family: "Georgia";
+  color: #fb6161;
+  font-size: 35px;
+  padding-top: 0px;
+}
+h1.my-4 {
+  color: #cc2e2e;
+  font-size: 30px;
+  text-align: center;
+}
+h2.my-4 {
+  color: #cc2e2e;
+  font-size: 20px;
+  text-align: center;
+}
+h3.my-4 {
+  color: #802121;
+  font-size: 16px;
+  text-align: center;
+}
+h4.my-4 {
+  color: #802121;
+  font-size: 20px;
+  text-align: center;
+}
+span.symbol {
+  color: #8b1e1e;
+  font-size: 18px;
+}
+h2 a {
+  color: #cc2e2e;
+}
+span a {
+  color: #cc2e2e;
+}
+a.group-item {
+  color: #cc2e2e;
+  font-size: 15px;
+  text-align: center;
+  padding: 25px;
+}
+div.list-group {
+  background-color: #fdecec;
+}
+h4 a {
+  color: #cc2e2e;
+}
+h5 {
+  color: #cc2e2e;
+  font-size: 19px;
+}
+footer.py-5 {
+  background-color: #ffd9d9;
+  padding: 10px;
+}
+p.bottom {
+  color: #cc2e2e;
+  text-align: center;
+}
+h2.number {
+  color: #cc2e2e;
+  font-size: 16px;
+  padding-bottom: 10px;
+}
+h6.my-0 {
+  color: #cc2e2e;
+  font-size: 19px;
+  padding-bottom: 10px;
+}
+h7.my-0 {
+  color: #cc2e2e;
+  font-size: 15px;
+  padding-bottom: 10px;
+}
+span.total {
+  color: #cc2e2e;
+  font-size: 22px;
+}
+span.text {
+  color: #cc2e2e;
+}
+span.txt {
+  color: #cc2e2e;
+  font-size: 14px;
+}
+h2.ordernum {
+  color: #cc2e2e;
+  font-size: 25px;
+}
+h2.ordernu {
+  color: #cc2e2e;
+  font-size: 22px;
+}
+span.ordernum {
+  text-align: right;
+  color: #cc2e2e;
+  margin-top: 15px;
+  font-size: 15px;
+}
+p.card-text {
+  font-size: 17px;
+  margin-bottom: 0px;
+  color: #cc2e2e;
+}
+h4.card-title{
+  font-size: 29px;
+  margin-bottom: 8px;
+  color: #cc2222;
+}
+
+

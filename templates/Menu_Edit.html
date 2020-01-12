@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block bigtitle %}Menu Edit{% endblock %}
+
+{% block content%}
+   <div class="center"> 
+        <form class='form' action={% url 'menuedit' id %} method='POST' enctype="multipart/form-data">{% csrf_token %} 
+          <div class="center">
+              {% if item.image %}
+              <img width="25%" src="{{item.image.url}}" alt="">
+              {% else %}
+              <img width="20%" src="{% static 'img/default.png' %}" alt="">
+              {% endif %}
+          </div><br>
+          {% for field in form%}    
+          <div class="center">
+              <h5 class="card-title" id="information">{{ field.label_tag }}  {{ field }}<p class="card-text">{{ field.errors }}</p></h5>
+          </div><br>
+          {% endfor %}
+          <br>
+          <input class="button1staff" type="submit" name='comfirm' value="Confirm Edit and Upload">
+        </form>  
+     </div>     
+{% endblock %}
+

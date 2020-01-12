@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    {% block script %}{% endblock %}
+    <title>{% block bigtitle %}MENU{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="{% static 'css/cssfile.css' %}"/>
+  </head>
+
+  <body class="back">
+    <div class="container">
+
+      <div class="tophead">
+        <div>
+          <nav class="navbar navbar-expand-lg navbar-light">
+              <div class="container">                                
+                  <ul class="navbar-nav mr-auto order-1"></ul>
+                  <ul class="navbar-nav d-none d-lg-flex ml-2 order-3">
+                    {% if request.user.is_authenticated %}
+                    <form action= {% url 'main' %}  method='POST'>{% csrf_token %} 
+                      <li class="navtxt">Hi, {{request.user.username}} </li>
+                      <li class="navtxt"><input class="signout" type=submit id="logout" name='signout' value='Sign Out'></li>
+                    </form>
+                    {% else %}
+                    <li class="navtxt"><a class="navtxt"  id="signin" href={% url 'login' %}>Sign In</a></li>
+                    <li class="navtxt"><a class="navtxt"  href={% url 'register' %}>Register</a></li>
+                    {% endif %}
+                  </ul>
+              </div>
+          </nav>
+        </div>
+        <p class="Lucida" color="#FF79BC">
+          <img src="{% static 'img/Logo.png' %}" alt="Logo" width=240 height=200>
+          SHERRY's <span class="Georgia"> SMALL KITCHEN</span>
+        </p>
+      </div>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding:0" >
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01" style="background-color:#fdecec;">
+            <ul class="navbar-nav mr-auto mst-2 mt-lg-0">
+              <li class="navtxt"><a class="navtxt" href={% url 'main' %}>HOME</a></li>
+              <li class="navtxt" ><a class="navtxt"  href={% url 'main' %}>MENU</a></li>
+              {% if request.user.is_authenticated %} 
+              {% ifequal request.user.groups.first.name 'manager' %}
+              <li class="navtxt" ><a class="navtxt"  href={% url 'edit' %}>EDIT MENU</a></li> 
+              <li class="navtxt" ><a class="navtxt" href={% url 'staff' %}>STAFF</a></li>
+              <li class="navtxt" ><a class="navtxt"  href={% url 'order-list' %} >ORDER LIST</a></li>
+              {% endifequal %}
+              {% ifequal request.user.groups.first.name 'employee' %}
+              <li class="navtxt" ><a class="navtxt"  href={% url 'order-list' %} >ORDER LIST</a></li>
+              {% endifequal %}
+              {% ifequal request.user.groups.first.name 'customer' %}
+              <li class="navtxt" ><a class="navtxt"  href={% url 'customer-orders' %}>Your Orders</a></li>
+              <li class="navtxt" ><a class="navtxt"  href={% url 'order' %}>Create Your Order Now !</a></li>
+              {% endifequal %}
+              {% else %}
+              <li class="navtxt" ><a class="navtxt"  href={% url 'order' %}>Create Your Order Now !</a></li>
+              {% endif %}
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" >
+              <input class="button1staff" type="submit" value="Search">
+            </form>
+        </div>
+      </nav>
+
+      {% block content%}
+      <div class="row" style="margin-top:26px;">
+        {% block category %}
+        <div class="col-lg-3">
+          <h1 class="my-4">TYPE</h1>
+          <div class="list-group">
+            <a href="#" class="group-item" >NEW SPECIALITY</a>
+            <a href="#" class="group-item">APPETIZERS</a>
+            <a href="#" class="group-item">CHICKEN</a>
+            <a href="#" class="group-item">PORK</a>
+            <a href="#" class="group-item">BEEF</a>
+            <a href="#" class="group-item">VEGETABLES</a>
+            <a href="#" class="group-item">SOUP</a>
+            <a href="#" class="group-item">DRINKS</a>
+          </div>
+        </div>
+        {% endblock %}
+     
+          {% block clo %}
+        <div class="col-lg-9">
+          {% endblock %}
+
+          {% block title %}
+          <h1 class="my-4">MUNE 
+                {% block extra %}<span class="ordernum"></span>
+                {% endblock %}
+              </h1>
+              <div class="center">
+              <form action={% block net %} {% url 'main' %} {% endblock %} method='POST'>
+                {% csrf_token %} 
+                {% for i in store %}
+                <input name='sid' type='hidden' value={{ i.id }}>
+                <input name='store' type='submit' class="button1" value={{ i.name }}>
+                {% endfor %}{%block add%}{%endblock%}
+              </form></br>
+              </div>
+          {% endblock %}
+
+          <div class="row">  
+            {% for i in food %}
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="card h-100">
+                {% if i.image %}
+                <img class="card-img-top" src="{{i.image.url}}" alt="">
+                {% else %}
+                <img class="card-img-top" src="{% static 'img/default.png' %}" alt="">
+                {% endif %}
+                {% block cardbody %}
+                      <div class="card-body">
+                        <h4 class="card-title">{{ i.name }}</h4>
+                        <h5>$ {{ i.price }}</h5>
+                        <p class="card-text">{{ i.intro }}</p>
+                      </div>   
+                {% endblock %}
+                {% block cardextra %} {% endblock %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- /.col-lg-9 -->
+      </div>
+      <!-- /.row -->
+      {% endblock %}
+
+    <br><br><br>
+    <footer class="py-5" >
+      <div class="container" >
+        <p class="bottom">Copyright &copy; Sherry's Website 2019</p>
+      </div>
+    </footer>
+   </div>
+  </body>
+</html>

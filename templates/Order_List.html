@@ -1,0 +1,110 @@
+      {% extends "base.html" %}
+
+      {% block script %}
+      <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+      <script>
+      $(document).ready(function(){
+        function update() { 
+          var storename = $("#store").attr("name");
+          $.ajax({
+            method:"POST",
+            url:".",
+            data: {update:'0',store:storename,csrfmiddlewaretoken:'{{ csrf_token }}'},
+            dataType:"json"
+          })
+          .done(function(data){
+            if (!data){
+              return;
+            }     
+            var row = $("#row");
+            row.empty();
+            for (var tobe in data.ltobe){
+              var par1 = $("<div></div>"); par1.attr({class:"col-lg-4 col-sm-6 mb-4"});
+              var par2 = $("<div></div>"); par2.attr({class:"card h-100"});
+              var child1 = $("<div></div>"); child1.attr({class:"card-body",style:"background: #fdecec;"});
+              var child2 = $("<div></div>"); child2.attr({class:"card-body"});
+              var child3 = $("<div></div>"); child3.attr({cclass:"card-footer",style:"background: #ffffff"});
+              var children1 = $("<h2></h2>"); children1.attr({class:"ordernum"}); children1.text('User: '+data.ltobe[tobe].user);
+              var children2 = $("<p></p>"); children2.attr({class:"card-txt"}); children2.text(data.ltobe[tobe].food);
+              var children3 = $("<form></form>"); children3.attr({action:"{% url 'order-list' %}",method:'POST'});
+              child1.append(children1); child2.append(children2);
+              var grand1 = $("<input></input>"); grand1.attr({name:"item",type:"hidden",value:tobe});
+              var grand2 = $("<input></input>"); grand2.attr({name:"sid",type:"hidden",value:"{{ currentstore.id }}"});
+              var grand3 = $("<h4></h4>"); grand3.attr({class:"my-4"});
+              var grandgrand = $("<input></input>"); grandgrand.attr({name:'done',type:'submit',class:"button1staff",value:'DONE'});
+              grand3.append('Status: To be Done ',grandgrand); children3.append('{% csrf_token %}',grand1,grand2,grand3);
+              child3.append(children3);
+              par2.append(child1,child2,child3); par1.append(par2);row.append(par1);
+            }
+            for (var done in data.ldone){
+              var par1 = $("<div></div>"); par1.attr({class:"col-lg-4 col-sm-6 mb-4"});
+              var par2 = $("<div></div>"); par2.attr({class:"card h-100"});
+              var child1 = $("<div></div>"); child1.attr({class:"card-body",style:"background: #fdecec;"});
+              var child2 = $("<div></div>"); child2.attr({class:"card-body"});
+              var child3 = $("<div></div>"); child3.attr({cclass:"card-footer",style:"background: #ffffff"});
+              var children1 = $("<h2></h2>"); children1.attr({class:"ordernum"}); children1.text('User: '+data.ldone[done].user);
+              var children2 = $("<p></p>"); children2.attr({class:"card-txt"}); children2.text(data.ldone[done].food);
+              var children3 = $("<h4></h4>"); children3.attr({class:"my-4"}); children3.text('Status: Already Done ')
+              child1.append(children1); child2.append(children2);child3.append(children3);
+              par2.append(child1,child2,child3); par1.append(par2);row.append(par1);
+            } 
+          })
+          .fail(function() {
+            alert("This Request failed, sorry!");
+          })
+         }
+        setInterval(update, 5000);
+      });  
+      </script>
+      {% endblock %}
+
+      {% block bigtitle %}Order List{% endblock %}
+
+      {% block content %}
+      <h1 class="my-4" id="store" name={{currentstore.name}}>Order List | {{ currentstore.name }}</h1>
+      {% for i in store %}
+      <form action={% url 'order-list' %} method='POST'>
+        {% csrf_token %}  
+        <input name='sid' type='hidden' value={{ i.id }}>
+        <input name='store' type='submit' class="button1" value={{ i.name }}> 
+      </form>
+      {% endfor %}
+
+      <div class="row" id="row">
+        {% for i in list_tobe %}
+        <div  id="todonum" class="col-lg-4 col-sm-6 mb-4">
+          <div class="card h-100">
+            <div class="card-body" style="background: #fdecec;">
+              <h2 class="ordernum">User: {{ i.user }}</h2>
+            </div>
+            <div class="card-body">
+              <p class="card-txt">{{i.foods}}</p>
+            </div>
+            <div cclass="card-footer" style="background: #ffffff">               
+                <form action={% url 'order-list' %} method='POST'>
+                  {% csrf_token %} 
+                  <input name="item" type="hidden" value={{ i.id }}>
+                  <input name="sid" type="hidden" value={{ currentstore.id }}>
+                  <h4 class="my-4">Status: To be Done <input name='done' type='submit' id="done" class="button1staff" value='DONE'></h4>
+                </form>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        {% for i in list_done %}
+        <div id="donenum" class="col-lg-4 col-sm-6 mb-4">
+          <div class="card h-100">
+            <div class="card-body" style="background: #fdecec;">
+              <h2 class="ordernum">User: {{ i.user }}</h2>
+            </div>
+            <div class="card-body">
+              <p class="card-txt">{{i.foods}}</p>
+            </div>
+            <div cclass="card-footer" style="background: #ffffff">               
+                <h4 class="my-4">Status: Already Done </h4>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endblock %}

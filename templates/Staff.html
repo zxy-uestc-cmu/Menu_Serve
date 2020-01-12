@@ -1,0 +1,137 @@
+      {% extends "base.html" %}
+      {% block bigtitle %}Staff Info{% endblock %}
+      
+      {% block content %}
+      <form action='/staff/' method='POST'>
+        {% csrf_token %} 
+        <h1 class="my-4">Staff Information</h1> 
+        <div class="center"><input name='addstore' id="addstore" type='submit' class="button1" value='Add Store'></div>
+      </form>
+      
+      <div class="row">
+        <div class="col-lg-4 col-sm-6 mb-4">
+          <div class="card h-100">
+            <div class="card-top"> 
+                <h2 class="ordernum" >Manager List </h2>
+            </div>
+            <div class="card-body">    
+              {% for i in manager %}
+                <p class="card-txt" id="manager" style="margin-bottom:0px;">
+                    {{ i.username }}
+                 {% for j in store %}
+                 <form action={% url 'staff' %} method='POST'>{% csrf_token %}       
+                    <input id='store' name='id' type='hidden' value={{ i.id }}> 
+                    <input name='sid' type='hidden' value={{ j.id }}> 
+                    <input name='adds' id="addms" type='submit' class="buttonstaff" value='Add To {{j.name}}'>
+                  </form>
+                 {% endfor %}  
+                 <form action={% url 'staff' %} method='POST'>{% csrf_token %}    
+                    <input name='id' type='hidden' value={{ i.id }}>                   
+                    <input name='changeme' type='submit' class="buttonchange" value='Change To Employee'>
+                    <input name='changemc' type='submit' class="buttonchange" value='Change To Customer'>
+                  </form>
+                </p>
+               {% endfor %} 
+            </div>     
+          </div>
+        </div> 
+
+        <div class="col-lg-4 col-sm-6 mb-4">
+          <div class="card h-100">
+            <div class="card-top"> 
+                <h2 class="ordernum" >Employee List </h2>     
+            </div>
+            <div class="card-body">
+              {% for i in employ %}
+                <p id="employer" style="margin-bottom:0px;">
+                    {{ i.username }}
+                  {% for j in store %}
+                  <form action={% url 'staff' %} method='POST'>{% csrf_token %} 
+                    <input name='id' type='hidden' value={{ i.id }}> 
+                    <input name='sid' type='hidden' value={{ j.id }}> 
+                    <input name='adds' id="addes" type='submit' class="buttonstaff" value='Add To {{j.name}}'> 
+                  </form>
+                  {% endfor %}
+                  <form action={% url 'staff' %} method='POST'>{% csrf_token %} 
+                    <input name='id' type='hidden' value={{ i.id }}>
+                    <input name='changeem' type='submit' id="etm" class="buttonchange" value='Change To Manager'>
+                    <input name='changeec' type='submit' class="buttonchange" value='Change To Customer'>
+                  </form>
+                </p>
+              {% endfor %}
+            </div>     
+          </div>
+        </div> 
+
+            <div class="col-lg-4 col-sm-6 mb-4">
+              <div class="card h-100">
+                <div class="card-top"> 
+                    <h2 class="ordernum" >Customer List </h2>
+                </div>
+                <div class="card-body">
+                  {% for i in customer %}
+                    <p class="card-txt" style="margin-bottom:0px;">
+                      {{ i.username }}
+                      <form action={% url 'staff' %} method='POST'>
+                        {% csrf_token %}       
+                        <input name='id' type='hidden' value={{ i.id }}> 
+                        <input name='changecm' type='submit' class="buttonchange" value='Change To Manager'>
+                        <input name='changece' type='submit' id="ctoe" class="buttonchange" value='Change To Employee'>
+                      </form>
+                    </p>
+                   {% endfor %}
+                </div>     
+              </div>
+            </div> 
+      </div>
+
+      <div class="row">
+        {% for i in store %}
+        <div class="col-lg-4 col-sm-6 mb-4">
+          <div class="card h-100">
+            <div class="card-top"> 
+              <form action={% url 'staff' %} method='POST'>
+                {% csrf_token %} 
+                <input name="sid" type="hidden" value={{ i.id }}>
+                <h2 class="ordernu">Store Name:</h2> 
+                <input name="storen" type="text" value={{ i.name }}><br>
+                <input name='storename' type='submit' class="buttonstaff" value='Comfirm Store Name'>
+                <input name='deletestore' id="deletestore" type='submit' class="buttonstaff" value='Delete Store'> 
+              </form>
+            </div>
+            <div class="card-body">
+              <span class="symbol">Manager: </span>       
+              <p class="card-text">  
+                {% for p in i.member.all %}
+                <form action={% url 'staff' %} method='POST'>{% csrf_token %} 
+                {% ifequal p.groups.first.name 'manager' %}
+                  {{ p.username }} 
+                  <input id="hasmanager" name="id" type="hidden" value={{ p.id }}> 
+                  <input name="sid" type="hidden" value={{ i.id }}>
+                  <input name="deleteme" id="deletems" type="submit" class="buttonstaff" value='Delete'> <br>
+                {% endifequal %}
+              </form>
+              {% endfor %} 
+              </p> <br>
+              <span class="symbol">Employ:</span> 
+                   <p class="card-text"> 
+                      {% for p in i.member.all %}
+                      <form action={% url 'staff' %} method='POST'>{% csrf_token %} 
+                      {% ifequal p.groups.first.name 'employee' %}
+                        {{ p.username }} 
+                        <input id="hasemployee" name="sid" type="hidden" value={{ i.id }}>
+                         <input name="id" type="hidden" value={{ p.id }}> 
+                        <input name="deleteme" id ="deletees" type="submit" class="buttonstaff" value='Delete'> <br>
+                      {% endifequal %}
+                    </form>  
+                    {% endfor %} 
+                   </p>   
+              </div>     
+          </div>
+        </div> 
+        {% endfor %}
+      </div>
+      {% endblock %}
+
+
+
