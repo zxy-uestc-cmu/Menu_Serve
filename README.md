@@ -1,30 +1,9 @@
 
-<Git comit and branch>
-At the half stage of this homework, I commit and push to the master branch. And I used hw6 branch for the next half stage.
-**** So please check my "git commit" information both in master branch and hw6 branch. ****
-And the final-version codes, including the yml file for CD, for my webapp is in hw6 branch :)
-
-
 A. URL
 URL My azure website is: http://xinyanzhmenuapp.azurewebsites.net/ 
-My website git url is: https://xinyanzhmenuapp.scm.azurewebsites.net/xinyanzhmenuapp.git
-My Enviorment variables:
-export DBHOST="xinyanzhcmu.postgres.database.azure.com"
-export DBUSER="xinyanzhh@xinyanzhcmu"
-export DBNAME="memuapp"
-export DBPASS="Woshihabao97020*"
 
 
-B. Settings for my Azure CD app:
-(1)  To use and deploy Azure via CD/Ci tool, I created my own CD project and pipline for this app, and use one yml file to build, test and push automatically. 
-The actual yml file used is in branch "hw6", which is only triggered by the push of branch hw6.
-      
-(2) The requirements.txt file is used to install some packages needed for this app, and it uses selenuim 3.3, django 2.2.1 and python 3.7
-
-
-
-C. Some tips/information:
-
+B. Some tips/information:
 (1) In order-food page and order-list(remember to select differnt stores) page, Ajax is used to communicate with server and update the page without reloading. If ajax fails to retrive data, the page will display an alert message.   
 
 (2) For non-log-in user, if they click the "create-order-now" link, they will be redirect to the page of login/register.
